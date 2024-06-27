@@ -77,48 +77,33 @@
 	transform: scaleX(0.5);
 }
 
-/*字号*/
-
-// 定义字体大小列表  
 @font-sizes: 0, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 28, 32;  
   
-// 递归混合来生成字体大小样式  
-.font-sizes(@i: length(@font-sizes)) when (@i > 0) {  
-  // 递减索引以匹配数组顺序  
+.font-sizes(@i: length(@font-sizes)) when (@i > 0) { 
   @current-size: extract(@font-sizes, @i);  
   .f-@{current-size} {  
     font-size: @current-size * 1px;  
   }  
-    
-  // 递归调用下一个索引  
+  
   .font-sizes(@i - 1);  
 }  
   
-// 初始调用混合以生成所有字体大小样式  
 .font-sizes(); 
-
-/*行高*/
 
 @line-heights: 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 29, 30, 32, 34, 36, 38, 40;
 
-// 递归混合来生成字体大小样式  
-.line-heights(@i: length(@line-heights)) when (@i > 0) {  
-  // 递减索引以匹配数组顺序  
+.line-heights(@i: length(@line-heights)) when (@i > 0) { 
   @current-size: extract(@line-heights, @i);  
   .lh-@{current-size} {  
     line-height: @current-size * 1px;  
   }  
     
-  // 递归调用下一个索引  
   .line-heights(@i - 1);  
 }  
   
-// 初始调用混合以生成所有字体大小样式  
 .line-heights(); 
 
-/*颜色*/
 .c {
-	// 可点击文字颜色
 	&-s {
 		color: #517DAA;
 	}
@@ -225,7 +210,6 @@
 		background-color: #f63c3d;
 	}
 }
-/*字体*/
 .f-b {
 	font-weight: bold;
 }
@@ -250,13 +234,11 @@
 	}
 }
 
-/*边距*/
-@range: 50; // 从0到30
+@range: 50;
   
-// 生成padding原子样式  
 .padding(@index) when (@index > 0) {  
   .p-@{index} {  
-    padding: @index * 1px; // 每个单位是1px  
+    padding: @index * 1px; 
   } 
 	.px-@{index} {  
     padding-left: @index * 1px;  
@@ -278,18 +260,16 @@
   .pl-@{index}{
   	padding-left: @index * 1px;
   }
-  .padding(@index - 1); // 递归调用以生成下一个值  
+  .padding(@index - 1);
 }  
-.padding(0) {} // 递归终止条件  
-.padding(@range); // 开始生成padding样式  
+.padding(0) {} 
+.padding(@range); 
 
-// 适配 ios 底部安全区域
 .mb-ios {
 	margin-bottom: constant(safe-area-inset-bottom);
 	margin-bottom: env(safe-area-inset-bottom);
 }
   
-// 生成margin原子样式  
 .margin(@index) when (@index > 0) {  
   .m-@{index} {  
     margin: @index * 1px;   
@@ -320,7 +300,6 @@
 .margin(@range); 
 
 
-/*布局*/
 .v {
 	&-h {
 		visibility: hidden;
@@ -402,7 +381,6 @@
 	align-items: center;
 }
 
-/*宽高*/
 .w {
 	&-f {
 		width: 100vw;
@@ -420,9 +398,6 @@
 		height: 100%;
 	}
 }
-/**
-  定位
- */
 .p {
 	&-a {
 		position: absolute;
@@ -438,7 +413,6 @@
 	}
 }
 
-// 层级
 .z {
 	&-1 {
 		z-index: 1;
@@ -459,7 +433,6 @@
 		z-index: 999;
 	}
 }
-// 边框
 .b {
 	&-1 {
 		border: 1rpx solid #eee;
@@ -477,7 +450,6 @@
 		border-left: 1rpx solid #eee;
 	}
 }
-// 文本溢出
 .o {
 	&-h {
 		overflow: hidden;
@@ -489,7 +461,6 @@
 		overflow: auto;
 	}
 }
-// 文本溢出截断
 .el {
 	.ellipsis {
 		overflow: hidden;
@@ -524,73 +495,4 @@
 .ios-pb {
 	padding-bottom: constant(safe-area-inset-bottom);
 	padding-bottom: env(safe-area-inset-bottom);
-}
-
-
-.hair {
-
-	&-b {
-
-		&-ee {
-			position: relative;
-			&::after {
-				.hairline-bottom(#eee);
-			}
-		}
-
-		&-f5 {
-			position: relative;
-			&::after {
-				.hairline-bottom(#f5f5f5);
-			}
-		}
-	}
-
-	&-t {
-		&-ee {
-			position: relative;
-			&::after {
-				.hairline-top(#eee);
-			}
-		}
-
-		&-f5 {
-			position: relative;
-			&::after {
-				.hairline-top(#f5f5f5);
-			}
-		}
-	}
-
-	&-l {
-		&-ee {
-			position: relative;
-			&::after {
-				.hairline-left(#eee);
-			}
-		}
-
-		&-f5 {
-			position: relative;
-			&::after {
-				.hairline-left(#f5f5f5);
-			}
-		}
-	}
-	
-	&-r {
-		&-ee {
-			position: relative;
-			&::after {
-				.hairline-right(#eee);
-			}
-		}
-
-		&-f5 {
-			position: relative;
-			&::after {
-				.hairline-right(#f5f5f5);
-			}
-		}
-	}
 }

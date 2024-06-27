@@ -1,10 +1,6 @@
 import * as vscode from 'vscode'
-
-const classDescriptions: { [key: string]: string } = {
-  'custom-class1': 'This is the description for custom-class1.',
-  'custom-class2': 'This is the description for custom-class2.',
-  'custom-class3': 'This is the description for custom-class3.'
-}
+// 引入 app.json 文件
+import classDescriptions from './app.json'
 
 function isInsideClassOrClassNameAttribute(
   document: vscode.TextDocument,
@@ -68,7 +64,8 @@ export function activate(context: vscode.ExtensionContext) {
         const range = document.getWordRangeAtPosition(position, /[\w-]+/)
         if (range) {
           const word = document.getText(range)
-          const description = classDescriptions[word]
+          const description =
+            classDescriptions[word as keyof typeof classDescriptions]
           if (description) {
             return new vscode.Hover(description)
           }
