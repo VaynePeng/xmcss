@@ -1,0 +1,596 @@
+@border-color: #eeeeee;
+
+.flexCenter(@direction: row) {
+	display: flex;
+	flex-direction: @direction;
+	justify-content: center;
+	align-items: center;
+}
+
+.hairline-common() {
+	position: absolute;
+	box-sizing: border-box;
+	content: ' ';
+	pointer-events: none;
+}
+
+.hairline(@color: @border-color) {
+	.hairline-common();
+
+	top: -50%;
+	right: -50%;
+	bottom: -50%;
+	left: -50%;
+	border: 0 solid @color;
+	transform: scale(0.5);
+}
+
+.hairline-surround(@color: @border-color, @radius: unset) {
+	.hairline-common();
+
+	top: -50%;
+	right: -50%;
+	bottom: -50%;
+	left: -50%;
+	border: 1px solid @color;
+	border-radius: calc(@radius * 2);
+	transform: scale(0.5);
+}
+
+.hairline-top(@color: @border-color, @left: 0, @right: 0) {
+	.hairline-common();
+
+	top: 0;
+	right: @right;
+	left: @left;
+	border-top: 1px solid @color;
+	transform: scaleY(0.5);
+}
+
+.hairline-bottom(@color: @border-color, @left: 0, @right: 0) {
+	.hairline-common();
+
+	right: @right;
+	bottom: 0;
+	left: @left;
+	border-bottom: 1px solid @color;
+	transform: scaleY(0.5);
+}
+
+.hairline-left(@color: @border-color, @top: 0, @bottom: 0) {
+	.hairline-common();
+
+	top: @top;
+	bottom: @bottom;
+	left: 0;
+	border-left: 1px solid @color;
+	transform: scaleX(0.5);
+}
+
+.hairline-right(@color: @border-color, @top: 0, @bottom: 0) {
+	.hairline-common();
+
+	top: @top;
+	bottom: @bottom;
+	right: 0;
+	border-right: 1px solid @color;
+	transform: scaleX(0.5);
+}
+
+/*字号*/
+
+// 定义字体大小列表  
+@font-sizes: 0, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24, 28, 32;  
+  
+// 递归混合来生成字体大小样式  
+.font-sizes(@i: length(@font-sizes)) when (@i > 0) {  
+  // 递减索引以匹配数组顺序  
+  @current-size: extract(@font-sizes, @i);  
+  .f-@{current-size} {  
+    font-size: @current-size * 1px;  
+  }  
+    
+  // 递归调用下一个索引  
+  .font-sizes(@i - 1);  
+}  
+  
+// 初始调用混合以生成所有字体大小样式  
+.font-sizes(); 
+
+/*行高*/
+
+@line-heights: 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 29, 30, 32, 34, 36, 38, 40;
+
+// 递归混合来生成字体大小样式  
+.line-heights(@i: length(@line-heights)) when (@i > 0) {  
+  // 递减索引以匹配数组顺序  
+  @current-size: extract(@line-heights, @i);  
+  .lh-@{current-size} {  
+    line-height: @current-size * 1px;  
+  }  
+    
+  // 递归调用下一个索引  
+  .line-heights(@i - 1);  
+}  
+  
+// 初始调用混合以生成所有字体大小样式  
+.line-heights(); 
+
+/*颜色*/
+.c {
+	// 可点击文字颜色
+	&-s {
+		color: #517DAA;
+	}
+	&-0 {
+		color: #000;
+	}
+	&-2 {
+		color: #222;
+	}
+	&-3 {
+		color: #333;
+	}
+	&-4 {
+		color: #444;
+	}
+	&-6 {
+		color: #666;
+	}
+	&-7 {
+		color: #777;
+	}
+	&-8 {
+		color: #888;
+	}
+	&-9 {
+		color: #999;
+	}
+	&-b {
+		color: #bbb;
+	}
+	&-c {
+		color: #ccc;
+	}
+	&-d {
+		color: #ddd;
+	}
+	&-grey1 {
+		color: #bdbdbd;
+	}
+	&-e {
+		color: #eee;
+	}
+	&-f {
+		color: #fff;
+	}
+	&-p {
+		color: var(--primary-color, #ffa900);
+	}
+	&-br {
+		color: #975304;
+	}
+	&-red {
+		color: #f63c3d;
+	}
+	&-red1 {
+		color: #eb5757;
+	}
+}
+
+.br {
+	&-2 {
+		border-radius: 2px;
+	}
+	&-4 {
+		border-radius: 4px;
+	}
+	&-6 {
+		border-radius: 6px;
+	}
+	&-8 {
+		border-radius: 8px;
+	}
+	&-10 {
+		border-radius: 10px;
+	}
+	&-20 {
+		border-radius: 20px;
+	}
+	&-50 {
+		border-radius: 50%;
+	}
+	&-max {
+		border-radius: 9999px;
+	}
+}
+
+.bg {
+	&-ff {
+		background-color: #fff;
+	}
+	&-ee {
+		background-color: #eee;
+	}
+	&-f5 {
+		background-color: #f5f5f5;
+	}
+	&-f7 {
+		background-color: #f7f7f7;
+	}
+	&-p {
+		background: var(--primary-color, #ffa900);
+	}
+	&-red {
+		background-color: #f63c3d;
+	}
+}
+/*字体*/
+.f-b {
+	font-weight: bold;
+}
+.f-n {
+	font-weight: normal;
+}
+.f-b7 {
+	font-weight: 700;
+}
+.t {
+	&-c {
+		text-align: center;
+	}
+	&-l {
+		text-align: left;
+	}
+	&-r {
+		text-align: right;
+	}
+	&-j {
+		text-align: justify;
+	}
+}
+
+/*边距*/
+@range: 50; // 从0到30
+  
+// 生成padding原子样式  
+.padding(@index) when (@index > 0) {  
+  .p-@{index} {  
+    padding: @index * 1px; // 每个单位是1px  
+  } 
+	.px-@{index} {  
+    padding-left: @index * 1px;  
+    padding-right: @index * 1px;  
+  }
+	.py-@{index} {  
+    padding-top: @index * 1px;  
+    padding-bottom: @index * 1px;  
+  } 
+  .pt-@{index}{
+  	padding-top: @index * 1px;
+  }
+  .pr-@{index}{
+  	padding-right: @index * 1px;
+  }
+  .pb-@{index}{
+  	padding-bottom: @index * 1px;
+  }
+  .pl-@{index}{
+  	padding-left: @index * 1px;
+  }
+  .padding(@index - 1); // 递归调用以生成下一个值  
+}  
+.padding(0) {} // 递归终止条件  
+.padding(@range); // 开始生成padding样式  
+
+// 适配 ios 底部安全区域
+.mb-ios {
+	margin-bottom: constant(safe-area-inset-bottom);
+	margin-bottom: env(safe-area-inset-bottom);
+}
+  
+// 生成margin原子样式  
+.margin(@index) when (@index > 0) {  
+  .m-@{index} {  
+    margin: @index * 1px;   
+  } 
+	.mx-@{index} {  
+    margin-left: @index * 1px;  
+    margin-right: @index * 1px;  
+  }
+	.my-@{index} {  
+    margin-top: @index * 1px;  
+    margin-bottom: @index * 1px;  
+  }
+  .mt-@{index} {  
+    margin-top: @index * 1px;
+  }
+  .mr-@{index} {  
+    margin-right: @index * 1px; 
+  }
+  .mb-@{index} {  
+    margin-bottom: @index * 1px;
+  }
+  .ml-@{index} {  
+    margin-left: @index * 1px;
+  }
+  .margin(@index - 1);
+}  
+.margin(0) {} 
+.margin(@range); 
+
+
+/*布局*/
+.v {
+	&-h {
+		visibility: hidden;
+	}
+	&-v {
+		visibility: visible;
+	}
+}
+.d {
+	&-f {
+		display: flex;
+	}
+	&-b {
+		display: block;
+	}
+	&-i {
+		display: inline;
+	}
+	&-ib {
+		display: inline-block;
+	}
+	&-if {
+		display: inline-flex;
+	}
+}
+.flex {
+	&-n {
+		flex: none;
+	}
+	&-1 {
+		flex: 1;
+	}
+	&-r {
+		flex-direction: row;
+	}
+	&-c {
+		flex-direction: column;
+	}
+	&-w {
+		flex-wrap: wrap;
+	}
+	&-s0 {
+		flex-shrink: 0;
+	}
+}
+.j {
+	&-s {
+		justify-content: flex-start;
+	}
+	&-e {
+		justify-content: flex-end;
+	}
+	&-c {
+		justify-content: center;
+	}
+	&-b {
+		justify-content: space-between;
+	}
+	&-a {
+		justify-content: space-around;
+	}
+}
+
+.a {
+	&-s {
+		align-items: flex-start;
+	}
+	&-e {
+		align-items: flex-end;
+	}
+	&-c {
+		align-items: center;
+	}
+}
+
+.f-c {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/*宽高*/
+.w {
+	&-f {
+		width: 100vw;
+	}
+	&-full {
+		width: 100%;
+	}
+}
+
+.h {
+	&-f {
+		height: 100vh;
+	}
+	&-full {
+		height: 100%;
+	}
+}
+/**
+  定位
+ */
+.p {
+	&-a {
+		position: absolute;
+	}
+	&-r {
+		position: relative;
+	}
+	&-f {
+		position: fixed;
+	}
+	&-s {
+		position: sticky;
+	}
+}
+
+// 层级
+.z {
+	&-1 {
+		z-index: 1;
+	}
+	&-9 {
+		z-index: 9;
+	}
+	&-11 {
+		z-index: 11;
+	}
+	&-99 {
+		z-index: 99;
+	}
+	&-100 {
+		z-index: 100;
+	}
+	&-999 {
+		z-index: 999;
+	}
+}
+// 边框
+.b {
+	&-1 {
+		border: 1rpx solid #eee;
+	}
+	&-t {
+		border-top: 1rpx solid #eee;
+	}
+	&-r {
+		border-right: 1rpx solid #eee;
+	}
+	&-b {
+		border-bottom: 1rpx solid #eee;
+	}
+	&-l {
+		border-left: 1rpx solid #eee;
+	}
+}
+// 文本溢出
+.o {
+	&-h {
+		overflow: hidden;
+	}
+	&-s {
+		overflow: scroll;
+	}
+	&-a {
+		overflow: auto;
+	}
+}
+// 文本溢出截断
+.el {
+	.ellipsis {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		word-break: break-all;
+		-webkit-box-orient: vertical;
+	}
+	&-1 {
+		.ellipsis;
+		-webkit-line-clamp: 1;
+	}
+	&-2 {
+		.ellipsis;
+		-webkit-line-clamp: 2;
+	}
+	&-3 {
+		.ellipsis;
+		-webkit-line-clamp: 3;
+	}
+	&-4 {
+		.ellipsis;
+		-webkit-line-clamp: 4;
+	}
+}
+.w {
+	&-a {
+		word-break: break-all;
+	}
+}
+
+.ios-pb {
+	padding-bottom: constant(safe-area-inset-bottom);
+	padding-bottom: env(safe-area-inset-bottom);
+}
+
+
+.hair {
+
+	&-b {
+
+		&-ee {
+			position: relative;
+			&::after {
+				.hairline-bottom(#eee);
+			}
+		}
+
+		&-f5 {
+			position: relative;
+			&::after {
+				.hairline-bottom(#f5f5f5);
+			}
+		}
+	}
+
+	&-t {
+		&-ee {
+			position: relative;
+			&::after {
+				.hairline-top(#eee);
+			}
+		}
+
+		&-f5 {
+			position: relative;
+			&::after {
+				.hairline-top(#f5f5f5);
+			}
+		}
+	}
+
+	&-l {
+		&-ee {
+			position: relative;
+			&::after {
+				.hairline-left(#eee);
+			}
+		}
+
+		&-f5 {
+			position: relative;
+			&::after {
+				.hairline-left(#f5f5f5);
+			}
+		}
+	}
+	
+	&-r {
+		&-ee {
+			position: relative;
+			&::after {
+				.hairline-right(#eee);
+			}
+		}
+
+		&-f5 {
+			position: relative;
+			&::after {
+				.hairline-right(#f5f5f5);
+			}
+		}
+	}
+}
