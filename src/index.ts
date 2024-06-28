@@ -1,4 +1,6 @@
 import * as vscode from 'vscode'
+import path from 'path'
+import fs from 'fs'
 // 引入 app.json 文件
 import classDescriptions from './app.json'
 
@@ -19,64 +21,75 @@ function isInsideClassOrClassNameAttribute(
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  // 注册补全项提供器
-  let completionProvider = vscode.languages.registerCompletionItemProvider(
-    { language: 'typescriptreact', scheme: 'file' },
-    {
-      provideCompletionItems(
-        document: vscode.TextDocument,
-        position: vscode.Position,
-        token: vscode.CancellationToken,
-        context: vscode.CompletionContext
-      ) {
-        if (!isInsideClassOrClassNameAttribute(document, position)) {
-          return
+  const rootPath = vscode.workspace.workspaceFolders
+    ? vscode.workspace.workspaceFolders[0].uri.fsPath
+    : undefined
+
+  if (rootPath) {
+    const configFilePath = path.join(rootPath, 'xmcss.config.ts')
+    if (!fs.existsSync(configFilePath)) {
+      return
+    }
+
+    // 注册补全项提供器
+    let completionProvider = vscode.languages.registerCompletionItemProvider(
+      { language: 'typescriptreact', scheme: 'file' },
+      {
+        provideCompletionItems(
+          document: vscode.TextDocument,
+          position: vscode.Position,
+          token: vscode.CancellationToken,
+          context: vscode.CompletionContext
+        ) {
+          if (!isInsideClassOrClassNameAttribute(document, position)) {
+            return
+          }
+
+          const customClassNames = Object.keys(classDescriptions)
+          const completionItems = customClassNames.map((className) => {
+            const item = new vscode.CompletionItem(
+              className,
+              vscode.CompletionItemKind.Variable
+            )
+            item.insertText = className
+            return item
+          })
+          return completionItems
         }
+      },
+      ' ' // 触发补全的字符
+    )
 
-        const customClassNames = Object.keys(classDescriptions)
-        const completionItems = customClassNames.map((className) => {
-          const item = new vscode.CompletionItem(
-            className,
-            vscode.CompletionItemKind.Variable
-          )
-          item.insertText = className
-          return item
-        })
-        return completionItems
-      }
-    },
-    ' ' // 触发补全的字符，这里使用点号 (.)
-  )
+    // 注册悬停提供器
+    let hoverProvider = vscode.languages.registerHoverProvider(
+      { language: 'typescriptreact', scheme: 'file' },
+      {
+        provideHover(
+          document: vscode.TextDocument,
+          position: vscode.Position,
+          token: vscode.CancellationToken
+        ) {
+          if (!isInsideClassOrClassNameAttribute(document, position)) {
+            return null
+          }
 
-  // 注册悬停提供器
-  let hoverProvider = vscode.languages.registerHoverProvider(
-    { language: 'typescriptreact', scheme: 'file' },
-    {
-      provideHover(
-        document: vscode.TextDocument,
-        position: vscode.Position,
-        token: vscode.CancellationToken
-      ) {
-        if (!isInsideClassOrClassNameAttribute(document, position)) {
+          const range = document.getWordRangeAtPosition(position, /[\w-]+/)
+          if (range) {
+            const word = document.getText(range)
+            const description =
+              classDescriptions[word as keyof typeof classDescriptions]
+            if (description) {
+              return new vscode.Hover(description)
+            }
+          }
           return null
         }
-
-        const range = document.getWordRangeAtPosition(position, /[\w-]+/)
-        if (range) {
-          const word = document.getText(range)
-          const description =
-            classDescriptions[word as keyof typeof classDescriptions]
-          if (description) {
-            return new vscode.Hover(description)
-          }
-        }
-        return null
       }
-    }
-  )
+    )
 
-  context.subscriptions.push(completionProvider)
-  context.subscriptions.push(hoverProvider)
+    context.subscriptions.push(completionProvider)
+    context.subscriptions.push(hoverProvider)
+  }
 }
 
 export function deactivate() {}
