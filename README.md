@@ -14,3 +14,9 @@
 #### 悬浮提示:
 
 ![css 提示](./hover.png)
+
+
+#### 现阶段如何新增属性提示
+1. 在 src/utils/app.less 中添加属性
+2. 执行 src/utils/transform-less-to-css.ts 生成提示文件
+3. 重新打包发布
