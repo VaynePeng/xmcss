@@ -20,6 +20,13 @@ function isInsideClassOrClassNameAttribute(
   return false
 }
 
+function formatCss(cssString: string) {
+  // 将CSS字符串格式化为每个属性前后都有换行的形式
+  const properties = cssString.match(/\{(.*)\}/)?.[1].trim().split(';').filter(Boolean) || [];
+  const formattedProperties = properties.map(property => `\n  ${property.trim()};`);
+  return `{${formattedProperties.join('')}\n}`;
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const rootPath = vscode.workspace.workspaceFolders
     ? vscode.workspace.workspaceFolders[0].uri.fsPath
@@ -52,6 +59,11 @@ export function activate(context: vscode.ExtensionContext) {
               vscode.CompletionItemKind.Variable
             )
             item.insertText = className
+            // 获取并设置描述内容
+            const description = classDescriptions[className as keyof typeof classDescriptions]
+            if (description) {
+              item.documentation = formatCss(description)
+            }
             return item
           })
           return completionItems
@@ -79,7 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
             const description =
               classDescriptions[word as keyof typeof classDescriptions]
             if (description) {
-              return new vscode.Hover(description)
+              return new vscode.Hover(formatCss(description))
             }
           }
           return null
