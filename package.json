@@ -3,7 +3,7 @@
   "displayName": "xmcss",
   "icon": "icon.png",
   "description": "xmcss extension",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "VaynePeng",
   "engines": {
     "vscode": "^1.90.0"
