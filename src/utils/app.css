@@ -3538,6 +3538,18 @@
 .right-1 {
   right: 1px;
 }
+.top-0 {
+  top: 0px;
+}
+.bottom-0 {
+  bottom: 0px;
+}
+.left-0 {
+  left: 0px;
+}
+.right-0 {
+  right: 0px;
+}
 .w-100 {
   width: 100px;
 }

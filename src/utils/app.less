@@ -568,7 +568,7 @@
 }
 
 @position-range: 50;
-.position(@index) when (@index > 0) {
+.position(@index) when (@index >= 0) {
 	.top-@{index} {
 		top: @index * 1px;
 	}
