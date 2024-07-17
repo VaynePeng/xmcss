@@ -179,6 +179,9 @@
 	&-10 {
 		border-radius: 10px;
 	}
+	&-12 {
+		border-radius: 12px;
+	}
 	&-20 {
 		border-radius: 20px;
 	}
@@ -510,6 +513,12 @@
 	&-l {
 		border-left: 1rpx solid #eee;
 	}
+	&-b-1 {
+		border-bottom: 1px solid #eee;
+	}
+	&-r-1 {
+		border-right: 1px solid #eee;
+	}
 }
 .o {
 	&-h {
@@ -557,3 +566,35 @@
 	padding-bottom: constant(safe-area-inset-bottom);
 	padding-bottom: env(safe-area-inset-bottom);
 }
+
+@position-range: 50;
+.position(@index) when (@index > 0) {
+	.top-@{index} {
+		top: @index * 1px;
+	}
+	.bottom-@{index} {
+		bottom: @index * 1px;
+	}
+	.left-@{index} {
+		left: @index * 1px;
+	}
+	.right-@{index} {
+		right: @index * 1px;
+	}
+	.position(@index - 1);
+}
+.position(0) {}
+.position(@position-range);
+
+@wh-range: 100;
+.wh(@index) when (@index > 0) {
+	.w-@{index} {
+		width: @index * 1px;
+	}
+	.h-@{index} {
+		height: @index * 1px;
+	}
+	.wh(@index - 1);
+}
+.wh(0) {}
+.wh(@wh-range);
